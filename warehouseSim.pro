@@ -16,14 +16,24 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    component.cpp \
+    entity.cpp \
+    geometry2dcomponent.cpp \
     main.cpp \
     mainwindow.cpp \
+    physicssystem.cpp \
+    positioncomponent.cpp \
     rendercomponent.cpp \
     rendersystem.cpp \
     warehousefloor.cpp
 
 HEADERS += \
+    component.h \
+    entity.h \
+    geometry2dcomponent.h \
     mainwindow.h \
+    physicssystem.h \
+    positioncomponent.h \
     rendercomponent.h \
     rendersystem.h \
     warehousefloor.h

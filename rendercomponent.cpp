@@ -1,10 +1,8 @@
 #include "rendercomponent.h"
 
-RenderComponent::RenderComponent(QString _type, float _x, float _y, float _r, QColor _color) : QComponent()
+RenderComponent::RenderComponent(Entity* _myEnt, QPointF* _points) : Component(_myEnt)
 {
-    type = _type;
-    x = _x;
-    y = _y;
-    r = _r;
-    color = _color;
+    RENDER_SYSTEM->points.insert(this->getID(), _points);
+    qDebug() << (*RENDER_SYSTEM->points.find(this->getID()).value());
+    qDebug() <<  RENDER_SYSTEM->points.size();
 }

@@ -9,7 +9,7 @@ WarehouseFloor::WarehouseFloor(QWidget *parent) :
     cellHeight(CH),
     cellWidth(CW)
 {
-    renderSystem = new RenderSystem();
+    //renderSystem = new RenderSystem();
 
     timer = new QTimer(nullptr);
     timer->setInterval(30);
@@ -23,16 +23,16 @@ void WarehouseFloor::instance_environment()
     //itemList.append(dep);
     //MuleRobot* mule = new MuleRobot(this, "mule1", 100,100, 5, 25, 10);
     //itemList.append(mule);
-    renderSystem->p = new QPainter (this);
+    RENDER_SYSTEM->p = new QPainter (this);
 
     update();
 }
 
 void WarehouseFloor::paintEvent(QPaintEvent *)
 {
-    renderSystem->p->begin(this);
-    renderSystem->simulate();
-    renderSystem->p->end();
+    RENDER_SYSTEM->p->begin(this);
+    RENDER_SYSTEM->simulate();
+    RENDER_SYSTEM->p->end();
 }
 
 void WarehouseFloor::startSim()
@@ -43,7 +43,7 @@ void WarehouseFloor::startSim()
 void WarehouseFloor::simulate()
 {
 
-    renderSystem->simulate();
+    RENDER_SYSTEM->simulate();
 //    QList<RenderItem*>::iterator it;
 //    for (it = itemList.begin() ; it != itemList.end() ; it++)
 //    {
@@ -64,11 +64,28 @@ void WarehouseFloor::newOrder()
             tempy += GH*0.2;
         tempx = int(tempx);
         tempy = int(tempy);
-        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity();
-        RenderComponent* component = new RenderComponent("square", (tempx+0.5)*CW, (tempy+0.5)*CH, 25, QColor(0x5E81AC));
-        entity->addComponent(component);
-        renderSystem->comps.append(component);
-        entityList.append(entity);
+
+        Entity ent;
+        ent.addComponent(new PositionComponent(&ent, QVector2D((tempx+0.5)*CW, (tempy+0.5)*CH)));
+        QPolygon* poly = new QPolygon(QRect(0,0,CW,CH));
+        ent.addComponent(new Geometry2DComponent(&ent, poly)); //center?
+
+        QPointF renderPoints[4] = {
+            QPointF(tempx*CW,tempy*CH),
+            QPointF((tempx+1)*CW,tempy*CH),
+            QPointF((tempx+1)*CW,(tempy+1)*CH),
+            QPointF(tempx*CW,(tempy+1)*CH)
+        };
+
+        ent.addComponent(new RenderComponent(&ent, renderPoints));
+        qDebug() << "phys: " << PHYSICS_SYSTEM->position.size();
+
+
+//        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity();
+//        RenderComponent* component = new RenderComponent("square", (tempx+0.5)*CW, (tempy+0.5)*CH, 25, QColor(0x5E81AC));
+//        entity->addComponent(component);
+//        RENDER_SYSTEM->comps.append(component);
+//        entityList.append(entity);
     }
     update();
 }

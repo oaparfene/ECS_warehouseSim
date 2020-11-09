@@ -10,7 +10,7 @@ class Component
 public:
     Component(Entity* _myEnt);
     uint getID() const;
-    Entity* getEntity();
+    Entity* getEntity() const;
 
 private:
     Entity* myEnt;

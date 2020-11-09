@@ -1,8 +1,8 @@
 #include "rendercomponent.h"
 
-RenderComponent::RenderComponent(Entity* _myEnt, QPointF* _points) : Component(_myEnt)
+RenderComponent::RenderComponent(Entity* _myEnt, QPolygon* _poly) : Component(_myEnt)
 {
-    RENDER_SYSTEM->points.insert(this->getID(), _points);
-    qDebug() << (*RENDER_SYSTEM->points.find(this->getID()).value());
-    qDebug() <<  RENDER_SYSTEM->points.size();
+    RenderSystem::points.insert(this->getID(), _poly);
+    qDebug() << (*RenderSystem::points.find(this->getID()).value());
+    //qDebug() <<  RenderSystem::points.size();
 }

@@ -12,7 +12,7 @@ uint Component::getID() const
     return ID;
 }
 
-Entity* Component::getEntity()
+Entity* Component::getEntity() const
 {
     return myEnt;
 }

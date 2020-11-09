@@ -2,7 +2,7 @@
 #define RENDERSYSTEM_H
 
 #include <QGlobalStatic>
-#include <QMultiHash>
+#include <QHash>
 #include <QPointF>
 #include <QVector>
 
@@ -15,15 +15,15 @@ class RenderSystem
 {
 public:
     RenderSystem();
-    void simulate();
-    QPainter* p;
-    QList<RenderComponent*> comps;
+    static void simulate();
+    static QPainter* p;
+    static QList<RenderComponent*> comps;
 
     //
 
-    QMultiHash<uint, QPointF*> points;
+    static QHash<uint, QPolygon*> points;
 };
 
-Q_GLOBAL_STATIC(RenderSystem, RENDER_SYSTEM)
+//Q_GLOBAL_STATIC(RenderSystem, RENDER_SYSTEM)
 
 #endif // RENDERSYSTEM_H

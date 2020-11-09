@@ -1,8 +1,6 @@
 #ifndef RENDERCOMPONENT_H
 #define RENDERCOMPONENT_H
 
-#include <QPointF>
-
 #include "component.h"
 #include "rendersystem.h"
 
@@ -10,7 +8,7 @@ class RenderComponent : public Component//public Qt3DCore::QComponent
 {
 public:
     //RenderComponent(QString _type, float _x, float _y, float _r, QColor _color);// to do: _type to enum
-    RenderComponent(Entity* _myEnt, QPointF*);
+    RenderComponent(Entity* _myEnt, QPolygon* _poly);
     ~RenderComponent() {};
 
     //QString type;

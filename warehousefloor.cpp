@@ -23,16 +23,16 @@ void WarehouseFloor::instance_environment()
     //itemList.append(dep);
     //MuleRobot* mule = new MuleRobot(this, "mule1", 100,100, 5, 25, 10);
     //itemList.append(mule);
-    RENDER_SYSTEM->p = new QPainter (this);
+    RenderSystem::p = new QPainter (this);
 
     update();
 }
 
 void WarehouseFloor::paintEvent(QPaintEvent *)
 {
-    RENDER_SYSTEM->p->begin(this);
-    RENDER_SYSTEM->simulate();
-    RENDER_SYSTEM->p->end();
+    RenderSystem::p->begin(this);
+    RenderSystem::simulate();
+    RenderSystem::p->end();
 }
 
 void WarehouseFloor::startSim()
@@ -43,7 +43,7 @@ void WarehouseFloor::startSim()
 void WarehouseFloor::simulate()
 {
 
-    RENDER_SYSTEM->simulate();
+    RenderSystem::simulate();
 //    QList<RenderItem*>::iterator it;
 //    for (it = itemList.begin() ; it != itemList.end() ; it++)
 //    {
@@ -70,15 +70,15 @@ void WarehouseFloor::newOrder()
         QPolygon* poly = new QPolygon(QRect(0,0,CW,CH));
         ent.addComponent(new Geometry2DComponent(&ent, poly)); //center?
 
-        QPointF renderPoints[4] = {
-            QPointF(tempx*CW,tempy*CH),
-            QPointF((tempx+1)*CW,tempy*CH),
-            QPointF((tempx+1)*CW,(tempy+1)*CH),
-            QPointF(tempx*CW,(tempy+1)*CH)
-        };
+        QVector<QPoint> renderPoints;
+        renderPoints.append(QPoint(tempx*CW,tempy*CH));
+        renderPoints.append(QPoint((tempx+1)*CW,tempy*CH));
+        renderPoints.append(QPoint((tempx+1)*CW,(tempy+1)*CH));
+        renderPoints.append(QPoint(tempx*CW,(tempy+1)*CH));
 
-        ent.addComponent(new RenderComponent(&ent, renderPoints));
-        qDebug() << "phys: " << PHYSICS_SYSTEM->position.size();
+        poly = new QPolygon(renderPoints);
+        ent.addComponent(new RenderComponent(&ent, poly));
+        //qDebug() << "phys: " << PhysicsSystem::position.size();
 
 
 //        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity();

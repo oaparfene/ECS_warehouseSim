@@ -9,12 +9,13 @@ class Component
 {
 public:
     Component(Entity* _myEnt);
+    virtual ~Component() {};
     uint getID() const;
     Entity* getEntity() const;
 
 private:
     Entity* myEnt;
-    uint ID;
+    uint ID; //same ID as entity it belongs to
 };
 
 #endif // COMPONENT_H

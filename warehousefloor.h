@@ -1,6 +1,7 @@
 #ifndef WAREHOUSEFLOOR_H
 #define WAREHOUSEFLOOR_H
 
+#include <QtMath>
 #include <QWidget>
 #include <QTimer>
 #include <QPainter>
@@ -16,6 +17,7 @@
 #include "component.h"
 #include "positioncomponent.h"
 #include "geometry2dcomponent.h"
+#include "velocitycomponent.h"
 #include "physicssystem.h"
 
 #define GH 10

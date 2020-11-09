@@ -7,6 +7,14 @@ Entity::Entity()
     ID = ++entityCount;
 }
 
+Entity::~Entity()
+{
+    while (!componentVector.isEmpty())
+    {
+        delete componentVector.begin();
+    }
+}
+
 uint Entity::getID() const
 {
     return ID;

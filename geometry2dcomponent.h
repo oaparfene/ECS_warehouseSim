@@ -3,12 +3,12 @@
 
 #include "component.h"
 #include "physicssystem.h"
-#include <QPolygon>
+#include <QPolygonF>
 
 class Geometry2DComponent : public Component
 {
 public:
-    Geometry2DComponent(Entity* _myEnt, QPolygon* _poly);
+    Geometry2DComponent(Entity* _myEnt, QPolygonF* _poly);
 };
 
 #endif // GEOMETRY2DCOMPONENT_H

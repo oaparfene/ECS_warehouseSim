@@ -25,6 +25,7 @@ SOURCES += \
     positioncomponent.cpp \
     rendercomponent.cpp \
     rendersystem.cpp \
+    velocitycomponent.cpp \
     warehousefloor.cpp
 
 HEADERS += \
@@ -36,6 +37,7 @@ HEADERS += \
     positioncomponent.h \
     rendercomponent.h \
     rendersystem.h \
+    velocitycomponent.h \
     warehousefloor.h
 
 FORMS += \

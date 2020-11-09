@@ -8,6 +8,11 @@
 
 #include "warehousefloor.h"
 
+struct Appearance
+{
+    QPolygonF* polygon;
+    QColor color;
+};
 
 class RenderComponent;
 
@@ -18,10 +23,7 @@ public:
     static void simulate();
     static QPainter* p;
     static QList<RenderComponent*> comps;
-
-    //
-
-    static QHash<uint, QPolygon*> points;
+    static QHash<uint, Appearance> appearance;
 };
 
 //Q_GLOBAL_STATIC(RenderSystem, RENDER_SYSTEM)

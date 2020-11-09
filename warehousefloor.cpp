@@ -9,8 +9,6 @@ WarehouseFloor::WarehouseFloor(QWidget *parent) :
     cellHeight(CH),
     cellWidth(CW)
 {
-    //renderSystem = new RenderSystem();
-
     timer = new QTimer(nullptr);
     timer->setInterval(30);
     connect(timer, SIGNAL(timeout()), this, SLOT(simulate()));
@@ -19,6 +17,34 @@ WarehouseFloor::WarehouseFloor(QWidget *parent) :
 
 void WarehouseFloor::instance_environment()
 {
+
+    Entity* ent = new Entity();
+    ent->addComponent(new PositionComponent(ent, QVector2D(100, 100)));
+
+    QVector<QPointF> geometryPoints;
+    for (float i=0; i<=1 ; i=i+0.0625)
+    {
+        geometryPoints.append(QPointF(37*cos(i*2*M_PI), 37*sin(i*2*M_PI)));
+    }
+    QPolygonF* poly = new QPolygonF(geometryPoints);
+    ent->addComponent(new Geometry2DComponent(ent, poly));
+    geometryPoints.clear();
+
+    for (float i=0; i<=1 ; i=i+0.0625)
+    {
+        geometryPoints.append(QPointF(100, 100) + QPointF(37*cos(i*2*M_PI), 37*sin(i*2*M_PI)));
+    }
+    poly = new QPolygonF(geometryPoints);
+    Appearance app;
+    app.polygon = poly;
+    app.color = QColor(0xEBCB8B);
+    ent->addComponent(new RenderComponent(ent, app));
+
+    Velocity vel;
+    vel.dir = QVector2D(1,0);
+    vel.speed  = 10;
+    ent->addComponent(new VelocityComponent(ent, vel));
+
     //dep = new DepositDock(this, "Deposit Bay", 0, 0);
     //itemList.append(dep);
     //MuleRobot* mule = new MuleRobot(this, "mule1", 100,100, 5, 25, 10);
@@ -44,12 +70,7 @@ void WarehouseFloor::simulate()
 {
 
     RenderSystem::simulate();
-//    QList<RenderItem*>::iterator it;
-//    for (it = itemList.begin() ; it != itemList.end() ; it++)
-//    {
-//        if((*it)->simulate())
-//            break;
-//    }
+    PhysicsSystem::simulate();
     update();
 }
 
@@ -65,19 +86,21 @@ void WarehouseFloor::newOrder()
         tempx = int(tempx);
         tempy = int(tempy);
 
-        Entity ent;
-        ent.addComponent(new PositionComponent(&ent, QVector2D((tempx+0.5)*CW, (tempy+0.5)*CH)));
-        QPolygon* poly = new QPolygon(QRect(0,0,CW,CH));
-        ent.addComponent(new Geometry2DComponent(&ent, poly)); //center?
+        Entity* ent = new Entity();
+        ent->addComponent(new PositionComponent(ent, QVector2D((tempx+0.5)*CW, (tempy+0.5)*CH)));
+        QPolygonF* poly = new QPolygonF(QRectF(0,0,CW,CH));
+        ent->addComponent(new Geometry2DComponent(ent, poly)); //center?
 
-        QVector<QPoint> renderPoints;
-        renderPoints.append(QPoint(tempx*CW,tempy*CH));
-        renderPoints.append(QPoint((tempx+1)*CW,tempy*CH));
-        renderPoints.append(QPoint((tempx+1)*CW,(tempy+1)*CH));
-        renderPoints.append(QPoint(tempx*CW,(tempy+1)*CH));
-
-        poly = new QPolygon(renderPoints);
-        ent.addComponent(new RenderComponent(&ent, poly));
+        QVector<QPointF> renderPoints;
+        renderPoints.append(QPointF(tempx*CW,tempy*CH));
+        renderPoints.append(QPointF((tempx+1)*CW,tempy*CH));
+        renderPoints.append(QPointF((tempx+1)*CW,(tempy+1)*CH));
+        renderPoints.append(QPointF(tempx*CW,(tempy+1)*CH));
+        poly = new QPolygonF(renderPoints);
+        Appearance app;
+        app.polygon = poly;
+        app.color = QColor(0x5E81AC);
+        ent->addComponent(new RenderComponent(ent, app));
         //qDebug() << "phys: " << PhysicsSystem::position.size();
 
 

@@ -2,7 +2,7 @@
 #include "physicssystem.h"
 #include "rendercomponent.h"
 
-QHash<uint, QPolygon*> RenderSystem::points = QHash<uint, QPolygon*>();
+QHash<uint, Appearance> RenderSystem::appearance = QHash<uint, Appearance>();
 QPainter* RenderSystem::p = nullptr;
 
 RenderSystem::RenderSystem()
@@ -24,22 +24,16 @@ void RenderSystem::simulate()
 
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
-    p->setBrush(brush);
-    //brush.setColor((*it)->color);
 
-    qDebug() << RenderSystem::points.isEmpty();
-    qDebug() <<  RenderSystem::points.size();
-
-    //QPolygon* t;
-
-    if (!points.isEmpty())
+    if (!appearance.isEmpty())
     {
-        QHashIterator<uint, QPolygon*> i(RenderSystem::points); //= RenderSystem::points.find(1);
+        QHashIterator<uint, Appearance> i(RenderSystem::appearance);
         while (i.hasNext())
         {
             i.next();
-            qDebug() << "i:" << *(i.value());
-            p->drawPolygon(*i.value());
+            brush.setColor(i.value().color);
+            p->setBrush(brush);
+            p->drawPolygon(*i.value().polygon);
         }
     }
 

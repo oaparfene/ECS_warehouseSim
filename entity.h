@@ -10,6 +10,7 @@ class Entity
 {
 public:
     Entity();
+    ~Entity();
     uint getID() const;
     uint getEntityCount() const;
     QVector<Component*> getComponentVector() const;

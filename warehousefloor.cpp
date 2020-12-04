@@ -1,6 +1,14 @@
 #include "warehousefloor.h"
 #include "rendersystem.h"
+#include "physicssystem.h"
+#include "brainsystem.h"
 #include "rendercomponent.h"
+#include "positioncomponent.h"
+#include "geometry2dcomponent.h"
+#include "velocitycomponent.h"
+#include "cargocomponent.h"
+#include "mulecomponent.h"
+#include "inventorycomponent.h"
 
 WarehouseFloor::WarehouseFloor(QWidget *parent) :
     QWidget(parent),
@@ -24,7 +32,7 @@ void WarehouseFloor::instance_environment()
     QVector<QPointF> geometryPoints;
     for (float i=0; i<=1 ; i=i+0.0625)
     {
-        geometryPoints.append(QPointF(37*cos(i*2*M_PI), 37*sin(i*2*M_PI)));
+        geometryPoints.append(QPointF(25*cos(i*2*M_PI), 25*sin(i*2*M_PI)));
     }
     QPolygonF* poly = new QPolygonF(geometryPoints);
     ent->addComponent(new Geometry2DComponent(ent, poly));
@@ -32,7 +40,7 @@ void WarehouseFloor::instance_environment()
 
     for (float i=0; i<=1 ; i=i+0.0625)
     {
-        geometryPoints.append(QPointF(100, 100) + QPointF(37*cos(i*2*M_PI), 37*sin(i*2*M_PI)));
+        geometryPoints.append(QPointF(100, 100) + QPointF(25*cos(i*2*M_PI), 25*sin(i*2*M_PI)));
     }
     poly = new QPolygonF(geometryPoints);
     Appearance app;
@@ -44,6 +52,8 @@ void WarehouseFloor::instance_environment()
     vel.dir = QVector2D(1,0);
     vel.speed  = 10;
     ent->addComponent(new VelocityComponent(ent, vel));
+
+    ent->addComponent(new MuleComponent(ent));
 
     //dep = new DepositDock(this, "Deposit Bay", 0, 0);
     //itemList.append(dep);
@@ -71,6 +81,7 @@ void WarehouseFloor::simulate()
 
     RenderSystem::simulate();
     PhysicsSystem::simulate();
+    BrainSystem::simulate();
     update();
 }
 
@@ -101,14 +112,7 @@ void WarehouseFloor::newOrder()
         app.polygon = poly;
         app.color = QColor(0x5E81AC);
         ent->addComponent(new RenderComponent(ent, app));
-        //qDebug() << "phys: " << PhysicsSystem::position.size();
-
-
-//        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity();
-//        RenderComponent* component = new RenderComponent("square", (tempx+0.5)*CW, (tempy+0.5)*CH, 25, QColor(0x5E81AC));
-//        entity->addComponent(component);
-//        RENDER_SYSTEM->comps.append(component);
-//        entityList.append(entity);
+        ent->addComponent(new CargoComponent(ent));
     }
     update();
 }

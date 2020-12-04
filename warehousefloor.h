@@ -14,11 +14,8 @@
 //#include "depositdock.h"
 
 #include "entity.h"
-#include "component.h"
-#include "positioncomponent.h"
-#include "geometry2dcomponent.h"
-#include "velocitycomponent.h"
-#include "physicssystem.h"
+
+
 
 #define GH 10
 #define GW 20

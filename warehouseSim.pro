@@ -16,11 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    brainsystem.cpp \
+    cargocomponent.cpp \
+    collisioncomponent.cpp \
     component.cpp \
     entity.cpp \
     geometry2dcomponent.cpp \
+    inventorycomponent.cpp \
     main.cpp \
     mainwindow.cpp \
+    mulecomponent.cpp \
     physicssystem.cpp \
     positioncomponent.cpp \
     rendercomponent.cpp \
@@ -29,10 +34,15 @@ SOURCES += \
     warehousefloor.cpp
 
 HEADERS += \
+    brainsystem.h \
+    cargocomponent.h \
+    collisioncomponent.h \
     component.h \
     entity.h \
     geometry2dcomponent.h \
+    inventorycomponent.h \
     mainwindow.h \
+    mulecomponent.h \
     physicssystem.h \
     positioncomponent.h \
     rendercomponent.h \

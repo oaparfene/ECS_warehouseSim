@@ -1,7 +1,6 @@
 #ifndef RENDERSYSTEM_H
 #define RENDERSYSTEM_H
 
-#include <QGlobalStatic>
 #include <QHash>
 #include <QPointF>
 #include <QVector>
@@ -10,7 +9,7 @@
 
 struct Appearance
 {
-    QPolygonF* polygon;
+    QPolygonF* polygon; // make not a pointer
     QColor color;
 };
 
@@ -22,10 +21,7 @@ public:
     RenderSystem();
     static void simulate();
     static QPainter* p;
-    static QList<RenderComponent*> comps;
     static QHash<uint, Appearance> appearance;
 };
-
-//Q_GLOBAL_STATIC(RenderSystem, RENDER_SYSTEM)
 
 #endif // RENDERSYSTEM_H

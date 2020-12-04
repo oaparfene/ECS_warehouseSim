@@ -3,7 +3,6 @@
 
 #include <QHash>
 #include <QVector2D>
-#include <QGlobalStatic>
 
 struct Velocity{
     QVector2D dir;
@@ -16,13 +15,11 @@ public:
     PhysicsSystem();
     static void simulate();
     static QHash<uint, QVector2D> position;
-    static QHash<uint, QPolygonF*> geometry2D;
+    static QHash<uint, QPolygonF*> geometry2D; // make not pointer
     static QHash<uint, Velocity> velocity;
 
 private:
 
 };
-
-//Q_GLOBAL_STATIC(PhysicsSystem, PHYSICS_SYSTEM)
 
 #endif // PHYSICSSYSTEM_H

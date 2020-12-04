@@ -1,11 +1,13 @@
 #ifndef CARGOCOMPONENT_H
 #define CARGOCOMPONENT_H
 
+#include "component.h"
+#include "brainsystem.h"
 
-class CargoComponent
+class CargoComponent : public Component
 {
 public:
-    CargoComponent();
+    CargoComponent(Entity* _myEnt);
 };
 
 #endif // CARGOCOMPONENT_H

@@ -1,11 +1,13 @@
 #ifndef COLLISIONCOMPONENT_H
 #define COLLISIONCOMPONENT_H
 
+#include "component.h"
+#include "physicssystem.h"
 
-class CollisionComponent
+class CollisionComponent : public Component
 {
 public:
-    CollisionComponent();
+    CollisionComponent(Entity* _myEnt);
 };
 
 #endif // COLLISIONCOMPONENT_H

@@ -9,9 +9,9 @@ class BrainSystem
 public:
     BrainSystem();
     static void simulate();
-    static QHash<uint, bool> cargo;
-    static QHash<uint, QVector<uint>> mule;
-    static QHash<uint, QVector<uint>> inventory;
+    static QHash<uint, bool> cargo; //  is this cargo being targeted by a mule? bool
+    static QHash<uint, QVector<uint>> mule; // cargo target queue
+    static QHash<uint, QVector<uint>> inventory; // collected cargo
 };
 
 #endif // BRAINSYSTEM_H

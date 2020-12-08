@@ -6,9 +6,16 @@
 #include "positioncomponent.h"
 #include "geometry2dcomponent.h"
 #include "velocitycomponent.h"
+#include "collisioncomponent.h"
 #include "cargocomponent.h"
 #include "mulecomponent.h"
 #include "inventorycomponent.h"
+
+#define MULE_RADIUS 25
+#define MULE_RESOLUTION 0.0625
+
+#define MULE_SPAWN_COORDX 100
+#define MULE_SPAWN_COORDY 100
 
 WarehouseFloor::WarehouseFloor(QWidget *parent) :
     QWidget(parent),
@@ -30,35 +37,29 @@ void WarehouseFloor::instance_environment()
     ent->addComponent(new PositionComponent(ent, QVector2D(100, 100)));
 
     QVector<QPointF> geometryPoints;
-    for (float i=0; i<=1 ; i=i+0.0625)
-    {
-        geometryPoints.append(QPointF(25*cos(i*2*M_PI), 25*sin(i*2*M_PI)));
-    }
     QPolygonF* poly = new QPolygonF(geometryPoints);
-    ent->addComponent(new Geometry2DComponent(ent, poly));
     geometryPoints.clear();
 
-    for (float i=0; i<=1 ; i=i+0.0625)
+    for (float i=0; i<=1 ; i=i+MULE_RESOLUTION)
     {
-        geometryPoints.append(QPointF(100, 100) + QPointF(25*cos(i*2*M_PI), 25*sin(i*2*M_PI)));
+        geometryPoints.append(QPointF(MULE_SPAWN_COORDX, MULE_SPAWN_COORDY) + QPointF(MULE_RADIUS*cos(i*2*M_PI), MULE_RADIUS*sin(i*2*M_PI)));
     }
     poly = new QPolygonF(geometryPoints);
+    ent->addComponent(new Geometry2DComponent(ent, poly));
     Appearance app;
     app.polygon = poly;
     app.color = QColor(0xEBCB8B);
     ent->addComponent(new RenderComponent(ent, app));
 
     Velocity vel;
-    vel.dir = QVector2D(1,0);
+    vel.dir = QVector2D(0,0);
     vel.speed  = 10;
     ent->addComponent(new VelocityComponent(ent, vel));
 
+    ent->addComponent(new CollisionComponent(ent, true));
+
     ent->addComponent(new MuleComponent(ent));
 
-    //dep = new DepositDock(this, "Deposit Bay", 0, 0);
-    //itemList.append(dep);
-    //MuleRobot* mule = new MuleRobot(this, "mule1", 100,100, 5, 25, 10);
-    //itemList.append(mule);
     RenderSystem::p = new QPainter (this);
 
     update();
@@ -100,7 +101,6 @@ void WarehouseFloor::newOrder()
         Entity* ent = new Entity();
         ent->addComponent(new PositionComponent(ent, QVector2D((tempx+0.5)*CW, (tempy+0.5)*CH)));
         QPolygonF* poly = new QPolygonF(QRectF(0,0,CW,CH));
-        ent->addComponent(new Geometry2DComponent(ent, poly)); //center?
 
         QVector<QPointF> renderPoints;
         renderPoints.append(QPointF(tempx*CW,tempy*CH));
@@ -108,33 +108,13 @@ void WarehouseFloor::newOrder()
         renderPoints.append(QPointF((tempx+1)*CW,(tempy+1)*CH));
         renderPoints.append(QPointF(tempx*CW,(tempy+1)*CH));
         poly = new QPolygonF(renderPoints);
+        ent->addComponent(new Geometry2DComponent(ent,poly));
         Appearance app;
         app.polygon = poly;
         app.color = QColor(0x5E81AC);
         ent->addComponent(new RenderComponent(ent, app));
+        ent->addComponent(new CollisionComponent(ent, true));
         ent->addComponent(new CargoComponent(ent));
     }
     update();
 }
-
-//CargoItem* WarehouseFloor::getOrder()
-//{
-//    if (cargoList.isEmpty())
-//        return nullptr;
-//    return cargoList.takeFirst();
-//}
-
-//DepositDock* WarehouseFloor::getDep() const
-//{
-//    return dep;
-//}
-
-//QVector2D WarehouseFloor::getDepPos() const
-//{
-//    return dep->getPos();
-//}
-
-//void WarehouseFloor::removeCargo(CargoItem * cargo)
-//{
-//    itemList.removeOne(cargo);
-//}

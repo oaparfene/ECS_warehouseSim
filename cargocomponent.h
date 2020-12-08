@@ -8,6 +8,7 @@ class CargoComponent : public Component
 {
 public:
     CargoComponent(Entity* _myEnt);
+    ~CargoComponent();
 };
 
 #endif // CARGOCOMPONENT_H

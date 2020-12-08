@@ -1,5 +1,8 @@
 #include "brainsystem.h"
 #include "physicssystem.h"
+#include "rendersystem.h"
+
+#define COLLISIONDIST 50
 
 QHash<uint, bool> BrainSystem::cargo = QHash<uint, bool>();
 QHash<uint, QVector<uint>> BrainSystem::mule = QHash<uint, QVector<uint>>();
@@ -30,8 +33,22 @@ void BrainSystem::simulate()
         while (i.hasNext())
         {
             i.next();
-            if (!i.value().isEmpty()) // if mule already has task skip mule
+            if (!i.value().isEmpty()) // if mule already has task
+            {
+                uint tempID = i.value().first();
+                QVector2D distance_from_cargo = (*PhysicsSystem::position.find(i.value().first())) - (*PhysicsSystem::position.find(i.key()));
+                if (distance_from_cargo.length() < COLLISIONDIST) //found cargo
+                {
+                    RenderSystem::appearance.find(i.value().first())->color = QColor(0xBF616A);
+
+                    mule.find(i.key())->pop_front();
+                    Entity::deleteEntByID(tempID);
+                }
+
                 continue;
+            }
+            qDebug() << *PhysicsSystem::position.find(i.key());
+
             QHashIterator<uint, bool> j(BrainSystem::cargo);
             if (!j.findNext(true)) // first cargo that exists and is valid
                 return;

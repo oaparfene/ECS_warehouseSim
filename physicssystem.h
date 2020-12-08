@@ -15,8 +15,9 @@ public:
     PhysicsSystem();
     static void simulate();
     static QHash<uint, QVector2D> position;
-    static QHash<uint, QPolygonF*> geometry2D; // make not pointer
+    static QHash<uint, QPolygonF> geometry2D; // make not pointer: done
     static QHash<uint, Velocity> velocity;
+    static QHash<uint, bool> collisionMask; // cuurently only one layer therefore bool
 
 private:
 

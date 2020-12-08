@@ -9,9 +9,6 @@
 #include <QDebug>
 #include <QEntity>
 #include <QComponent>
-//#include "cargoitem.h"
-//#include "mulerobot.h"
-//#include "depositdock.h"
 
 #include "entity.h"
 
@@ -35,11 +32,6 @@ public:
     void startSim();
     void newOrder();
 
-    //CargoItem* getOrder();
-    //DepositDock* getDep() const;
-    //QVector2D getDepPos() const;
-    //void removeCargo(CargoItem*);
-
     const int gridHeight;
     const int gridWidth;
     const int cellHeight;
@@ -51,9 +43,6 @@ private slots:
 private:
     RenderSystem* renderSystem;
     QList<Qt3DCore::QEntity*> entityList;
-    //DepositDock* dep;
-    //QList<RenderItem*> itemList;
-    //QList<CargoItem*> cargoList;
     void instance_environment();
     QTimer* timer;
 };

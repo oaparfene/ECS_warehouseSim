@@ -9,7 +9,7 @@
 
 struct Appearance
 {
-    QPolygonF* polygon; // make not a pointer
+    QPolygonF* polygon;
     QColor color;
 };
 

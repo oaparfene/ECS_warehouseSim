@@ -10,6 +10,7 @@
 #include "cargocomponent.h"
 #include "mulecomponent.h"
 #include "inventorycomponent.h"
+#include "depositdockflagcomponent.h"
 
 #define MULE_RADIUS 25
 #define MULE_RESOLUTION 0.0625
@@ -60,6 +61,23 @@ void WarehouseFloor::instance_environment()
 
     ent->addComponent(new MuleComponent(ent));
 
+    // Deposit Dock instantiation
+
+    ent = new Entity();
+    ent->addComponent(new PositionComponent(ent, QVector2D(0, 0)));
+    QVector<QPointF> renderPoints;
+    renderPoints.append(QPointF(0,0));
+    renderPoints.append(QPointF(CW,0));
+    renderPoints.append(QPointF(CW,CH));
+    renderPoints.append(QPointF(0,CH));
+    poly = new QPolygonF(renderPoints);
+    ent->addComponent(new Geometry2DComponent(ent,poly));
+    app.polygon = poly;
+    app.color = QColor(0xB48EAD);
+    ent->addComponent(new RenderComponent(ent, app));
+    ent->addComponent(new CollisionComponent(ent, true));
+    ent->addComponent(new DepositDockFlagComponent(ent));
+
     RenderSystem::p = new QPainter (this);
 
     update();
@@ -100,14 +118,14 @@ void WarehouseFloor::newOrder()
 
         Entity* ent = new Entity();
         ent->addComponent(new PositionComponent(ent, QVector2D((tempx+0.5)*CW, (tempy+0.5)*CH)));
-        QPolygonF* poly = new QPolygonF(QRectF(0,0,CW,CH));
+        //QPolygonF* poly = new QPolygonF(QRectF(0,0,CW,CH));
 
         QVector<QPointF> renderPoints;
         renderPoints.append(QPointF(tempx*CW,tempy*CH));
         renderPoints.append(QPointF((tempx+1)*CW,tempy*CH));
         renderPoints.append(QPointF((tempx+1)*CW,(tempy+1)*CH));
         renderPoints.append(QPointF(tempx*CW,(tempy+1)*CH));
-        poly = new QPolygonF(renderPoints);
+        QPolygonF* poly = new QPolygonF(renderPoints);
         ent->addComponent(new Geometry2DComponent(ent,poly));
         Appearance app;
         app.polygon = poly;

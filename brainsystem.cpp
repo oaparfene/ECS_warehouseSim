@@ -7,6 +7,7 @@
 QHash<uint, bool> BrainSystem::cargo = QHash<uint, bool>();
 QHash<uint, QVector<uint>> BrainSystem::mule = QHash<uint, QVector<uint>>();
 QHash<uint, QVector<uint>> BrainSystem::inventory = QHash<uint, QVector<uint>>();
+QHash<uint, bool> BrainSystem::depositDocks = QHash<uint, bool>();
 
 BrainSystem::BrainSystem()
 {
@@ -23,7 +24,15 @@ void BrainSystem::simulate()
         while (i.hasNext())
         {
             i.next();
-            PhysicsSystem::velocity.find(i.key())->dir = QVector2D(0, 0);
+
+            QVector2D distance_from_dock = (*PhysicsSystem::position.find(depositDocks.begin().key())) - (*PhysicsSystem::position.find(i.key()));
+            PhysicsSystem::velocity.find(i.key())->dir = distance_from_dock.normalized();
+            if (distance_from_dock.length() < COLLISIONDIST)
+            {
+                //inventory.find(i.key())->clear();
+                PhysicsSystem::velocity.find(i.key())->dir = QVector2D(0, 0);
+            }
+
             // to do : point to deposit bay if !inventory.isEmpty()
         }
     }
@@ -40,6 +49,8 @@ void BrainSystem::simulate()
                 if (distance_from_cargo.length() < COLLISIONDIST) //found cargo
                 {
                     RenderSystem::appearance.find(i.value().first())->color = QColor(0xBF616A);
+                    qDebug() << tempID;
+                    //inventory.find(i.key())->append(tempID);
 
                     mule.find(i.key())->pop_front();
                     Entity::deleteEntByID(tempID);

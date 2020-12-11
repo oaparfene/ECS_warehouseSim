@@ -8,7 +8,7 @@ class RenderComponent : public Component
 {
 public:
     RenderComponent(Entity* _myEnt, Appearance _appearance);
-    ~RenderComponent() {};
+    ~RenderComponent();
 };
 
 #endif // RENDERCOMPONENT_H

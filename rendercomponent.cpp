@@ -6,3 +6,9 @@ RenderComponent::RenderComponent(Entity* _myEnt, Appearance _appearance) : Compo
     //qDebug() << (*RenderSystem::poly.find(this->getID()).value());
     //qDebug() <<  RenderSystem::poly.size();
 }
+
+RenderComponent::~RenderComponent()
+{
+    RenderSystem::appearance.erase(RenderSystem::appearance.find(this->getID()));
+
+}

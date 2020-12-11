@@ -20,6 +20,7 @@ SOURCES += \
     cargocomponent.cpp \
     collisioncomponent.cpp \
     component.cpp \
+    depositdockflagcomponent.cpp \
     entity.cpp \
     geometry2dcomponent.cpp \
     inventorycomponent.cpp \
@@ -38,6 +39,7 @@ HEADERS += \
     cargocomponent.h \
     collisioncomponent.h \
     component.h \
+    depositdockflagcomponent.h \
     entity.h \
     geometry2dcomponent.h \
     inventorycomponent.h \
